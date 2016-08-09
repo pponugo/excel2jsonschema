@@ -21,7 +21,7 @@
     "xlsx",
     "Spreadsheet"
   ],
-  "main": "index.js",
+  "main": "./lib/excel2jsonschema.js",
   "scripts": {
     "build": "gulp default"
   },
