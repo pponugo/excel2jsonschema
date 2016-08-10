@@ -68,5 +68,5 @@ Usage: excel2jsonschema [options]
 
 ```
 ## Examples
-* [sample.xls](https://github.com/pponugo/excel2jsonschema/blob/master/example/sample.xls)
-* [advanced-sample.xls](https://github.com/pponugo/excel2jsonschema/blob/master/example/advanced-sample.xls)
+* [sample.xlsx](https://github.com/pponugo/excel2jsonschema/blob/master/example/sample.xlsx)
+* [advanced-sample.xlsx](https://github.com/pponugo/excel2jsonschema/blob/master/example/advanced-sample.xlsx)
