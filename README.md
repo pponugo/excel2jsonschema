@@ -1,6 +1,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Dependency Status](https://dependencyci.com/github/pponugo/excel2jsonschema/badge)](https://dependencyci.com/github/pponugo/excel2jsonschema)
 [![Build Status](https://travis-ci.org/pponugo/excel2jsonschema.svg?branch=master)](https://travis-ci.org/pponugo/excel2jsonschema)
+[![Coverage Status](https://coveralls.io/repos/github/pponugo/excel2jsonschema/badge.svg?branch=master)](https://coveralls.io/github/pponugo/excel2jsonschema?branch=master)
 # Generate JSON Schema files from Excel Sheet
 
 ## Background
