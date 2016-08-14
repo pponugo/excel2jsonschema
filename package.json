@@ -24,6 +24,7 @@
   "main": "./lib/excel2jsonschema.js",
   "scripts": {
     "clean": "rimraf lib",
+    "test" : "mocha ./test/**/*spec.js",
     "build": "npm run clean && babel src --out-dir lib",
     "version": "npm version patch"
   },
@@ -50,6 +51,7 @@
     "gulp-jsbeautifier": "^2.0.3",
     "gulp-jsonminify": "^1.0.0",
     "minimist": "^1.2.0",
+    "mocha": "^3.0.2",
     "rimraf": "^2.5.4",
     "run-sequence": "^1.2.1",
     "stream-combiner2": "^1.1.1"
