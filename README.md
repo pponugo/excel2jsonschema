@@ -1,6 +1,6 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Dependency Status](https://dependencyci.com/github/pponugo/excel2jsonschema/badge)](https://dependencyci.com/github/pponugo/excel2jsonschema)
-
+[![Build Status](https://travis-ci.org/pponugo/excel2jsonschema.svg?branch=master)](https://travis-ci.org/pponugo/excel2jsonschema)
 # Generate JSON Schema files from Excel Sheet
 
 ## Background
@@ -20,7 +20,7 @@ The **excel2jsonschema** CLI tool, allows one to describe the JSON Schema in tab
 |Product|capacity|string|Capacity of product. For example, 4 people.|
 |Product|image|string|Image URL representing the product.|
 ####Output JSON Schema
-```
+```json
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Product",
