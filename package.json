@@ -23,7 +23,9 @@
   ],
   "main": "./lib/excel2jsonschema.js",
   "scripts": {
-    "build": "gulp default"
+    "clean": "rimraf lib",
+    "build": "npm run clean && babel src --out-dir lib",
+    "version": "npm version patch"
   },
   "bin": {
     "excel2jsonschema": "./lib/excel2jsonschema.js"
@@ -37,12 +39,18 @@
     "xlsx": "^0.8.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
     "del": "^2.2.0",
     "eslint-config-standard": "^5.1.0",
     "gulp": "^3.9.1",
     "gulp-jsbeautifier": "^2.0.3",
     "gulp-jsonminify": "^1.0.0",
     "minimist": "^1.2.0",
+    "rimraf": "^2.5.4",
     "run-sequence": "^1.2.1",
     "stream-combiner2": "^1.1.1"
   }
