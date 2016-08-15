@@ -38,21 +38,25 @@ function generateJSON (modelName, model, modelList) {
   return _.reduce(model, (result, value, key) => {
     let jsonValue
     if (_.includes(primitiveTypes, _.lowerCase(value.Type))) {
-      switch (value.Type) {
-        case 'any':
-          jsonValue = {}
-          break
-        case 'boolean':
-          jsonValue = false
-          break
-        case 'string':
-          jsonValue = value.Format === 'date-time' ? new Date() : 'example'
-          break
-        case 'number':
-        case 'integer':
-          jsonValue = -1
-          break
-        default:
+      if (value.Example) {
+        jsonValue = value.Example
+      } else {
+        switch (value.Type) {
+          case 'any':
+            jsonValue = {}
+            break
+          case 'boolean':
+            jsonValue = false
+            break
+          case 'string':
+            jsonValue = value.Format === 'date-time' ? new Date() : 'example'
+            break
+          case 'number':
+          case 'integer':
+            jsonValue = -1
+            break
+          default:
+        }
       }
     } else if (modelList[value.Type]) {
       if (value.Relation) return result

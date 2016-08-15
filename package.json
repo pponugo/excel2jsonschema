@@ -1,7 +1,7 @@
 {
   "name": "excel2jsonschema",
   "description": "Utility module which generates JSON Schema from Excel Spread sheet",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "author": "pponugo",
   "repository": {
