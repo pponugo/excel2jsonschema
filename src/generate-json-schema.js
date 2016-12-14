@@ -47,12 +47,14 @@ function processProperties (value, modelInfo) {
   let properties = _.chain(value)
     .groupBy(value => value['Property'])
     .mapValues((value, key) => {
+      if(_.lowerCase(value[0].ParentType) === 'object'){
+        return processChildProperties(value, modelInfo);
+      }
       return {
         description: value[0].Description,
         type: value[0].ParentType ? (_.lowerCase(value[0].ParentType) === 'array') ? 'array' : undefined : value[0].Type,
         items: processArrayItems(value[0]),
         // '$ref': (_.lowerCase(value[0].ParentType) === 'object') ? _.kebabCase(value[0].Type) + '.json#' : undefined,
-        properties: (_.lowerCase(value[0].ParentType) === 'object') ? processChildProperties(value, modelInfo) : undefined,
         enum: value[0].EnumList ? _.chain(value[0].EnumList).trim('[').trimEnd(']').split(', ').value() : undefined,
         default: value[0].Default,
         format: value[0].Format,
