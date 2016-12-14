@@ -26,7 +26,8 @@
     "clean": "rimraf lib",
     "test" : "mocha ./test/**/*spec.js",
     "build": "npm run clean && babel src --out-dir lib",
-    "version": "npm version patch"
+    "version": "npm version patch",
+    "x": "npm run build && node ./lib/excel2jsonschema.js"
   },
   "bin": {
     "excel2jsonschema": "./lib/excel2jsonschema.js"

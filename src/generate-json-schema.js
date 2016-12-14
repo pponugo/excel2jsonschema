@@ -21,13 +21,16 @@ module.exports = function (inputExcelFile, sheetName, outputDir) {
   modelInfo = _.chain(modelInfo)
     .reject(value => value.Ignore)
     .groupBy(value => value['Name'])
+    .value()
+
+  modelInfo = _.chain(modelInfo)
     .mapValues((value, key) => {
       return {
         '$schema': 'http://json-schema.org/draft-04/schema#',
         title: key,
         description: key,
         type: 'object',
-        properties: processProperties(value),
+        properties: processProperties(value, modelInfo),
         required: processRequiredFields(value)
       }
     })
@@ -40,7 +43,7 @@ module.exports = function (inputExcelFile, sheetName, outputDir) {
   })
 }
 
-function processProperties (value) {
+function processProperties (value, modelInfo) {
   let properties = _.chain(value)
     .groupBy(value => value['Property'])
     .mapValues((value, key) => {
@@ -48,7 +51,8 @@ function processProperties (value) {
         description: value[0].Description,
         type: value[0].ParentType ? (_.lowerCase(value[0].ParentType) === 'array') ? 'array' : undefined : value[0].Type,
         items: processArrayItems(value[0]),
-        '$ref': (_.lowerCase(value[0].ParentType) === 'object') ? _.kebabCase(value[0].Type) + '.json#' : undefined,
+        // '$ref': (_.lowerCase(value[0].ParentType) === 'object') ? _.kebabCase(value[0].Type) + '.json#' : undefined,
+        properties: (_.lowerCase(value[0].ParentType) === 'object') ? processChildProperties(value, modelInfo) : undefined,
         enum: value[0].EnumList ? _.chain(value[0].EnumList).trim('[').trimEnd(']').split(', ').value() : undefined,
         default: value[0].Default,
         format: value[0].Format,
@@ -63,6 +67,13 @@ function processProperties (value) {
     })
     .value()
   return _.isEmpty(properties) ? undefined : properties
+}
+
+function processChildProperties (value, modelInfo) {
+  return {
+    "type": "object",
+    properties: processProperties(modelInfo[value[0].Type], modelInfo)
+  }
 }
 
 function processArrayItems (value) {
