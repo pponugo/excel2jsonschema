@@ -24,9 +24,10 @@
   "main": "./lib/excel2jsonschema.js",
   "scripts": {
     "clean": "rimraf lib",
-    "test" : "mocha ./test/**/*spec.js",
+    "test": "mocha ./test/**/*spec.js",
     "build": "npm run clean && babel src --out-dir lib",
-    "version": "npm version patch"
+    "version": "npm version patch",
+    "x": "npm run build && node ./lib/excel2jsonschema.js"
   },
   "bin": {
     "excel2jsonschema": "./lib/excel2jsonschema.js"
@@ -46,7 +47,9 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.11.6",
     "del": "^2.2.0",
-    "eslint-config-standard": "^5.1.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-jsbeautifier": "^2.0.3",
     "gulp-jsonminify": "^1.0.0",
