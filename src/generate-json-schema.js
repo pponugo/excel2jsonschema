@@ -10,7 +10,7 @@ const assert = require('assert');
 const primitiveTypes = ['boolean', 'integer', 'number', 'string'];
 jsonfile.spaces = 4;
   // TODO: add validations
-export default (inputExcelFile, sheetName, outputDir) => {
+export default (inputExcelFile, sheetName, outputDir, embedded) => {
   assert(inputExcelFile, 'Please provide Input Excel Sheet location');
   assert(sheetName, 'Please provide Sheet Name');
   assert(outputDir, 'Please provide Output dir location');
@@ -30,7 +30,7 @@ export default (inputExcelFile, sheetName, outputDir) => {
       title: key,
       description: key,
       type: 'object',
-      properties: processProperties(value, modelInfo),
+      properties: processProperties(value, modelInfo, embedded),
       required: processRequiredFields(value),
     }))
     .value();
@@ -42,17 +42,18 @@ export default (inputExcelFile, sheetName, outputDir) => {
   });
 };
 
-function processProperties(value, modelInfo) {
+function processProperties(value, modelInfo, embedded) {
   const properties = _.chain(value)
     .groupBy(value1 => value1.Property)
     .mapValues((value2) => {
-      if (_.lowerCase(value2[0].ParentType) === 'object') {
-        return processChildProperties(value2, modelInfo);
+      if (embedded && _.lowerCase(value2[0].ParentType) === 'object') {
+        return processChildProperties(value2, modelInfo, embedded);
       }
       return {
         description: value2[0].Description,
         type: value2[0].ParentType ? (_.lowerCase(value2[0].ParentType) === 'array') ? 'array' : undefined : value2[0].Type,
-        items: processArrayItems(value2[0], modelInfo),
+        items: processArrayItems(value2[0], modelInfo, embedded),
+        $ref: (!embedded && _.lowerCase(value2[0].ParentType) === 'object') ? `${_.kebabCase(value2[0].Type)}.json#` : undefined,
         enum: value2[0].EnumList ? _.chain(value2[0].EnumList).trim('[').trimEnd(']').split(', ').value() : undefined,
         default: value2[0].Default,
         format: value2[0].Format,
@@ -69,24 +70,27 @@ function processProperties(value, modelInfo) {
   return _.isEmpty(properties) ? undefined : properties;
 }
 
-function processChildProperties(value, modelInfo) {
+function processChildProperties(value, modelInfo, embedded) {
   return {
     type: 'object',
-    properties: processProperties(modelInfo[value[0].Type], modelInfo),
+    properties: processProperties(modelInfo[value[0].Type], modelInfo, embedded),
   };
 }
 
-function processArrayItems(value, modelInfo) {
+function processArrayItems(value, modelInfo, embedded) {
   if (_.lowerCase(value.ParentType) === 'array') {
     if (_.includes(primitiveTypes, _.lowerCase(value.Type))) {
       return {
         type: value.Type,
       };
     }
-    return {
-      type: 'object',
-      properties: processProperties(modelInfo[value.Type], modelInfo),
-    };
+    if (embedded) {
+      return {
+        type: 'object',
+        properties: processProperties(modelInfo[value.Type], modelInfo, embedded),
+      };
+    }
+    return { $ref: `${_.kebabCase(value.Type)}.json#` };
   }
   return undefined;
 }
