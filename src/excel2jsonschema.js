@@ -1,27 +1,26 @@
 #!/usr/bin/env node
 
-'use strict'
+import generateJSONSchema from './generate-json-schema';
+import generateJSONExample from './generate-json-example';
+import validationUtil from './validationUtil';
 
-let args = require('commander')
-let path = require('path')
-let chalk = require('chalk')
-let generateJSONSchema = require('./generate-json-schema')
-let generateJSONExample = require('./generate-json-example')
-let validationUtil = require('./validationUtil')
+const args = require('commander');
+const path = require('path');
+const chalk = require('chalk');
 
 args.option('-i, --inputExcelFile <inputExcelFile>', '\'File Localtion\' which contains Schema definations', './example/advanced-sample.xlsx')
   .option('-s, --sheetName <sheetName>', '\'Sheet Name\' which contains Schema definations', 'Schema')
   .option('-o, --outputDir <outputDir>', '\'Output Directory\' where JSON Schema files should be generated', './dist')
-  .parse(process.argv)
+  .parse(process.argv);
 
-let inputExcelFile = path.resolve('.', args.inputExcelFile)
-let sheetName = args.sheetName
-let outputDir = path.resolve('.', args.outputDir)
+const inputExcelFile = path.resolve('.', args.inputExcelFile);
+const sheetName = args.sheetName;
+const outputDir = path.resolve('.', args.outputDir);
 
 if (validationUtil(inputExcelFile, sheetName, outputDir)) {
-  args.help()
+  args.help();
 } else {
-  console.log(`\n inputExcelFile:${chalk.green(inputExcelFile)} \n sheetName:${chalk.green(sheetName)} \n outputDir:${chalk.green(outputDir)}\n`)
-  generateJSONSchema(inputExcelFile, args.sheetName, path.join(outputDir, 'schema'))
-  generateJSONExample(inputExcelFile, args.sheetName, path.join(outputDir, 'example'))
+  console.log(`\n inputExcelFile:${chalk.green(inputExcelFile)} \n sheetName:${chalk.green(sheetName)} \n outputDir:${chalk.green(outputDir)}\n`);
+  generateJSONSchema(inputExcelFile, args.sheetName, path.join(outputDir, 'schema'));
+  generateJSONExample(inputExcelFile, args.sheetName, path.join(outputDir, 'example'));
 }
