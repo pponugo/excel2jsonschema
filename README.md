@@ -66,6 +66,7 @@ Usage: excel2jsonschema [options]
   -i, --inputExcelFile <inputExcelFile>  'File Localtion' which contains Schema definations
   -s, --sheetName <sheetName>            'Sheet Name' which contains Schema definations
   -o, --outputDir <outputDir>            'Output Directory' where JSON Schema files should be generated## Install
+  -e, --embedded <embedded>              'Embedded' If embedded Schema should be generated (default: false)
 
 ```
 ## Examples
