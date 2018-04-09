@@ -88,6 +88,7 @@ function processArrayItems(value, modelInfo, embedded) {
       return {
         type: 'object',
         properties: processProperties(modelInfo[value.Type], modelInfo, embedded),
+        required: processRequiredFields(modelInfo[value.Type]),
       };
     }
     return { $ref: `${_.kebabCase(value.Type)}.json#` };
