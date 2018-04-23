@@ -71,10 +71,21 @@ function processProperties(value, modelInfo, embedded) {
 }
 
 function processChildProperties(value, modelInfo, embedded) {
-  return {
-    type: 'object',
-    properties: processProperties(modelInfo[value[0].Type], modelInfo, embedded),
-  };
+  const type = 'object';
+  const properties = processProperties(modelInfo[value[0].Type], modelInfo, embedded);
+
+  if (embedded) {
+    return {
+      type,
+      properties,
+      required: processRequiredFields(modelInfo[value[0].Type]),
+    }
+  } else {
+    return {
+      type,
+      properties,
+    };
+  }
 }
 
 function processArrayItems(value, modelInfo, embedded) {
@@ -88,6 +99,7 @@ function processArrayItems(value, modelInfo, embedded) {
       return {
         type: 'object',
         properties: processProperties(modelInfo[value.Type], modelInfo, embedded),
+        required: processRequiredFields(modelInfo[value.Type]),
       };
     }
     return { $ref: `${_.kebabCase(value.Type)}.json#` };
